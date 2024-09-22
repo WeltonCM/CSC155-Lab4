@@ -20,8 +20,7 @@ int generateRandomNumber(int lowerBound, int upperBound) {
 }
 
 bool generateRobotBoolean() {
-    int rand = generateRandomNumber(0,1);
-    return bool(rand);
+    return generateRandomNumber(0,1) == 1;
 }
 
 bool isPowerOfTwo(int number) {
@@ -52,7 +51,7 @@ int getSmartNumber(int numMarbles) {
    
 }
 
-void playGame(bool isComputerFirst, bool isComputerSmart, int numberOfMarbles) {
+bool playGame(bool isComputerFirst, bool isComputerSmart, int numberOfMarbles) {
     cout << "There are " << numberOfMarbles << " marbles on the table." << endl;
     printf("%s first!\n", (isComputerFirst) ? "The robot goes" : "You go");
     if(isComputerSmart) {
@@ -63,7 +62,7 @@ void playGame(bool isComputerFirst, bool isComputerSmart, int numberOfMarbles) {
     while(marblesLeft >= 1){
         int marblesTaken; 
         if(marblesLeft == 1) {
-            printf("*********************%s!************************", (turn) ? "Robot Loses" : "Player Loses");
+            printf("*********************%s!************************\n\n", (turn) ? "Robot Loses" : "Player Loses");
             break;
         }
         if(turn){
@@ -88,16 +87,34 @@ void playGame(bool isComputerFirst, bool isComputerSmart, int numberOfMarbles) {
         printf("There %s %d %s left on the table\n", (marblesLeft > 1) ? "are" : "is" , marblesLeft, (marblesLeft > 1) ? "marbles" : "marble");
         turn = !turn;
     }
+    return !turn;
 }
 
 int main(){
 
     cout << "Welcome to the Game of Nim!" << endl;
-    int numberOfMarbles = generateRandomNumber(10, 100);
-    bool computerFirstTurn = generateRobotBoolean();
-    bool computerIntelligence = generateRobotBoolean();
+    cout << "This is a best of 3 tournament. First to 2 wins will be champion!!!" << endl;
+    int playerWins = 0, robotWins = 0;
+    while(playerWins < 2 && robotWins < 2){
+        if(playerWins == 1 && robotWins == 0){
+            cout << "Player needs one more win." << endl;
+        } else if(robotWins == 1 && playerWins == 0){
+            cout << "Robot needs one more win." << endl;
+        } else if(robotWins == 1 && playerWins == 1){
+            cout << "Tie breaker game!" << endl;
+        }
+        int numberOfMarbles = generateRandomNumber(10, 100);
+        bool computerFirstTurn = generateRobotBoolean();
+        bool computerIntelligence = generateRobotBoolean();
 
-    playGame(computerFirstTurn, computerIntelligence, numberOfMarbles);
+        bool winner = playGame(computerFirstTurn, computerIntelligence, numberOfMarbles);
+        if(winner){
+            robotWins ++;
+        } else {
+            playerWins ++;
+        }
+    }
+    printf("%s wins the tournament!", (playerWins > robotWins) ? "Player" : "Robot");
 
     return 0;
 }
