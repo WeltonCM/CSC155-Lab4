@@ -74,11 +74,11 @@ bool playGame(bool isComputerFirst, bool isComputerSmart, int numberOfMarbles) {
             while(!validInput){
                 cout << "How many marbles do you want?" << endl;
                 cin >> marblesTaken;
-                if(marblesTaken <= (marblesLeft/2)){
+                if(marblesTaken <= (marblesLeft/2) && marblesTaken > 0){
                     printf("Player wants %d %s \n", marblesTaken, (marblesTaken > 1) ? "marbles" : "marble");
                     validInput = true;
                 } else {
-                    cout << "Invalid input, the number taken must be less than half of the pile left." << endl;
+                    cout << "Invalid input, the number taken must be from 1 to n/2 of the marbles left." << endl;
                 }
             }
         }
